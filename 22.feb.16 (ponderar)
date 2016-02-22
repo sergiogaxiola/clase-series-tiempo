@@ -1,0 +1,28 @@
+#######PONDERAR CASOS 
+install.packages("questionr")
+require (questionr)
+c0<- table (sdem215$SEX)
+c0
+c1<-wtd.table (sdem215$SEX, weights=sdem215$FAC)
+table (c1)
+
+write.csv(c1,file='/home/sgr/Dropbox/Dropbox1/clases r/taller gpo laboral/PEA.csv')
+c1
+#Obtiene la tabla expandida con las nuevas etiquetas de CLASE1. Emplea la variable FAC (Factor de expansi?n)
+#Se asigna a una variable para poderla exportar
+##################### PORCENTAJES#######################
+tabrama <- wtd.table (sdem215$SEX, weights=sdem215$FAC)
+c1.1 <-round((tabrama/margin.table(tabrama))*100, 2)
+write.csv(c1.1,file='/home/sgr/Dropbox/Dropbox1/clases r/taller gpo laboral/PEA1.csv')
+c1.1
+#Obtiene las tablas con n?meros relativos
+#################OCUPADOS y No ocupados#####################
+
+sdem215$SEX <- ordered(sdem215$SEX,levels = c(1,2),labels = c("HOMBRES", "Mujeres"))
+#Obtiene la variable CLASE2(Poblaci?n ocupada y no ocupada) a la cual asigna etiquetas a los niveles
+c2<-wtd.table (sdem215$SEX, weights=sdem215$FAC)
+write.csv(c2,file='/home/sgr/Dropbox/Dropbox1/clases r/taller gpo laboral/Ocupados.csv')
+c2
+View (sdem215$SEX)
+
+#EJERCICIO CLASE. ETIQUETEN LA VARIABLE NAC_MES###
