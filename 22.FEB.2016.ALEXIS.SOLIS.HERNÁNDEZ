@@ -1,0 +1,69 @@
+library(foreign)
+sociodemo <- read.dbf("C:\\Users\\SALA-C7\\Downloads\\SDEMT215.dbf")
+View(sociodemo)
+
+#"RECODIFICAR Y ETIQUETAR"
+
+sociodemo <- data.frame(sociodemo)
+str(sociodemo)
+help(str)
+attach (sociodemo)
+table(SEX)
+table(EDA)
+
+EDA1 <- as.numeric(as.character(EDA)) ##CAMBIA A VALORES NUMERICOS UN VALOR TIPO CARACTER 
+table(EDA1)
+
+
+install.packages("car")
+install.packages("memisc")
+install.packages("lattice")
+install.packages("MASS")
+require(memisc)
+require(lattice)
+require(MASS)
+library(car)
+require(car)
+gedad <- recode (EDA1, '1:4= 2; 5:95 =1') #RECODIFICANDO UN RANGO
+help(car)
+??car
+
+
+
+#COMO PONDERAR CASOS
+
+install.packages("questionr")
+require(questionr)
+c0 <- table(sociodemo$SEX)
+c0
+c1 <- wtd.table(sociodemo$SEX, weights = sociodemo$FAC) #WTD ES PARA PODER CONOCER LOS DATOS POBLACIONALES
+table(c1)
+
+
+write.csv(c1, file = "PEA.csv") #PARA PODER IMPORTAR
+
+#Obtiene la tabla expandida con las nuevas etiquetas de CLASE1. Emplea la variable FAC
+##Se asigna la variable para poder exportar ##SACANDO PORCENTAJES
+
+tabrama <- wtd.table(sociodemo$SEX, weights = sociodemo$FAC)
+c1.1 <- round((tabrama/margin.table(tabrama))*100,2)
+c1.1
+write.csv(c1.1, file = "PEA1.csv")
+
+#OBTENIENDO LAS TABLAS CON NUEMEROS RELATIVOD
+##OCUPADOS Y NO OCUPADOS##
+
+sociodemo$SEX <- ordered(sociodemo$SEX, levels= c(1,2), labels= c("Hombres", "Mujeres"))
+#Obtiene la variable clase 2 (Poblacion ocupada y no ocupada) a la cual asigna etiquetas a los niveles
+c2 <- wtd.table(sociodemo$SEX, weights = sociodemo$FAC)
+c2
+
+library(foreign)
+sociodemo <- read.dbf("C:\\Users\\SALA-C7\\Downloads\\SDEMT215.dbf")
+View(sociodemo)
+sociodemo$NAC_MES <- as.numeric(as.character(sociodemo$NAC_MES))
+is.numeric(sociodemo$NAC_MES)
+sociodemo$NAC_MES <- ordered(sociodemo$NAC_MES, levels= 01:12, labels= c("ENERO", "FEBRERO", "MARZO",
+"ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"))
+sociodemo$NAC_MES
+View(sociodemo)
