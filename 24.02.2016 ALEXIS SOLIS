@@ -1,0 +1,71 @@
+#### Ejercicio Clase: 24/02/2016        ALUMNO:ALEXIS SOLIS HERNANDEZ
+### bajar la base de datos  Variables del cuestionario de ocupación y empleo I del portal del INEGI del segundo trimestre 
+###del 2015 
+##Importar la base de datos .dbf en R
+
+library(foreign)
+database <- read.dbf("C:\\Users\\SALA-C7\\Desktop\\COE1T215.dbf")
+View(database)
+
+#Seleccionando a la Entidad
+
+puebla <- subset(database, ENT== "04")
+View(puebla)
+
+## Etiquetar las preguntas ¿Aproximadamente cuántas personas, incluyendo al dueño, laboran donde trabaja ...?p3q
+
+puebla$P3L <- as.numeric(as.character(puebla$P3L))
+puebla$P3L <- ordered(puebla$P3L, levels=c( 1,2,3,4,5,6,7,8,9,10,11,99), labels= c("1 PERSONA", "2 A 5 PERSONAS", "6 A 10 PERSONAS",
+"11 A 15 PERSONAS", "16 A 20 PERSONAS", "21 A 30 PERSONAS", "31 A 50 PERSONAS", "51 A 100 PERSONAS", "101 A 250 PERSONAS",
+"251 A 500 PERSONAS", "501 Y MÁS PERSONAS", "NO SABE"))
+
+View(puebla)
+View(database)
+table(puebla$P3L)
+
+##¿La jornada de trabajo de ... es
+
+puebla$P5 <- as.numeric(as.character(puebla$P5))
+puebla$P5 <- ordered(puebla$P5, levels= c(1,2,3,4,9), labels= c("ENTRE LAS 6AM Y LAS 8PM", "ENTRE LAS 8 PM Y LAS 6AM",
+"MIXTA", "ROLA TURNOS", "NO SABE"))
+View(puebla)
+table(puebla$P5)
+
+##P2E
+
+puebla$P2E <- as.numeric(as.character(puebla$P2E))
+puebla$P2E <- ordered(puebla$P2E, levels= c(1,2,3,4,5,6,9), labels= c("PERSONA TEMPORALMENTE AUSENTE", "PENSIONADO O JUBILADO",
+"ESTUDIANTE", "QUEHACERES", "LIMITACIÓN FÍSICA O MENTAL O IMPIDE TRABAJAR POR EL RESTO DE SU VIDA", "OTRA CONDICION",
+"NO SABE"))
+table(puebla$P2E)
+View(puebla)
+
+#ETIQUETANDO P1
+
+puebla$P1 <- as.numeric(as.character(puebla$P1))
+puebla$P1 <- ordered(puebla$P1, levels= c(1,2), labels= c("SI TRABAJO", "NO TRABAJO"))
+table(puebla$P1)
+View(puebla)
+
+
+
+
+#REALIZANDO TABLAS
+require(questionr)
+x1 <- table(puebla$P3L, puebla$P1)
+x1
+tabrama <- wtd.table(puebla$P3L, puebla$P1, weights = puebla$FAC)
+tabrama
+View(x1)
+
+X2 <- table(puebla$P2E, puebla$P1)
+X2
+tabrama1 <- wtd.table(puebla$P2E, puebla$P1, weights = puebla$FAC)
+tabrama1
+View(X2)
+
+x3 <- table(puebla$P5, puebla$P1)
+x3
+tabrama2 <- wtd.table(puebla$P5, puebla$P1, weights = puebla$FAC)
+tabrama2
+View(x3)
