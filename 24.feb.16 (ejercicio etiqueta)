@@ -10,3 +10,24 @@
 ## p2e... 
 ###NO HACERLO###1) ausente temporal, 2) pensionado o jubilado, 3) se dedica al hogar o tiene limitaciones, 4) otra condicion, 9) no sabe
 ### hacer tablas expandidas de las variables que etiquetaron con sexo.... ####NUEVO#####
+
+#4. Recodificar 
+      
+      #4.1  Recodificion de variables numericas (rangos)
+     
+            #Metodo 1
+            attach(SDEMT215)
+            SDEMT215$EDAD11[as.numeric(EDA) >= 0 & as.numeric(EDA)<=10] <- 1
+            SDEMT215$EDAD11[as.numeric(EDA) >= 11 & as.numeric(EDA)<=20] <- 2
+            SDEMT215$EDAD11[as.numeric(EDA) >= 21 & as.numeric(EDA)<=30] <- 3
+            SDEMT215$EDAD11[as.numeric(EDA) >= 31 & as.numeric(EDA)<=40] <- 4
+            SDEMT215$EDAD11[as.numeric(EDA) >= 41] <- 5          
+            detach(SDEMT215) 
+            
+            #Metodo3
+            attach(SDEMT215)
+            SDEMT215$EDAD111 <- ifelse(as.numeric(EDA) >= 0 & as.numeric(EDA)<=10,1,
+                                       ifelse(as.numeric(EDA) >= 11 & as.numeric(EDA)<=20,2,
+                                              ifelse(as.numeric(EDA) >= 21 & as.numeric(EDA)<=30,3,
+                                                     ifelse(as.numeric(EDA) >= 31 & as.numeric(EDA)<=40,4,5))))
+            
