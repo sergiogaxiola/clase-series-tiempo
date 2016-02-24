@@ -1,0 +1,12 @@
+#### ejercicio clase
+### bajar la base de datos  Variables del cuestionario de ocupación y empleo I del portal del INEGI del segundo trimestre 
+###del 2015 
+##Importar la base de datos .dbf en R
+#### seleccionar solo a las entidades... 
+### etiquetar las preguntas ¿Aproximadamente cuántas personas, incluyendo al dueño, laboran donde trabaja ...?p3q
+###NO HACERLO###1) 1 a 5 personas, 2) 6 a 10, 3) 11 a 20, 4) 21 a 50 y 5) 51 y mas 
+##¿La jornada de trabajo de ... es
+###NO HACERLO### 1... dia, 2 ... noche, 3 mixto o rola turno, 4 no sabe
+## p2e... 
+###NO HACERLO###1) ausente temporal, 2) pensionado o jubilado, 3) se dedica al hogar o tiene limitaciones, 4) otra condicion, 9) no sabe
+### hacer tablas expandidas de las variables que etiquetaron con sexo.... ####NUEVO#####
