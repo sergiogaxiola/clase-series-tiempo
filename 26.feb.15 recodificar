@@ -1,1 +1,41 @@
 ######################RECODIFICAR############################333
+#0.3  Limpiar el entorno de trabajo
+rm(list = ls())
+
+
+#0.5  Cargar las Bases de datos
+SDEMT215<-data.frame(read.dbf("/home/sgr/Escritorio/SDEMT215.dbf"))
+COE1T215<-data.frame(read.dbf("COE1T215.dbf"))
+COE2T215<-data.frame(read.dbf("COE2T215.dbf"))
+
+
+
+#4.1  Recodificion de variables numericas (rangos)
+
+#Metodo 1
+#attach(SDEMT215)
+SDEMT215$EDAD11[as.numeric(SDEMT215$EDA) >= 0 & as.numeric(SDEMT215$EDA)<=10] <- 1
+SDEMT215$EDAD11
+SDEMT215$EDAD11[as.numeric(SDEMT215$EDA) >= 11 & as.numeric(SDEMT215$EDA)<=20] <- 2
+SDEMT215$EDAD11[as.numeric(SDEMT215$EDA) >= 21 & as.numeric(SDEMT215$EDA)<=30] <- 3
+SDEMT215$EDAD11[as.numeric(SDEMT215$EDA) >= 31 & as.numeric(SDEMT215$EDA)<=40] <- 4
+SDEMT215$EDAD11[as.numeric(SDEMT215$EDA) >= 41] <- 5          
+#detach(SDEMT215) 
+
+  #Metodo3
+attach(SDEMT215)
+SDEMT215$EDAD111 <- ifelse(as.numeric(EDA) >= 0 & as.numeric(EDA)<=10,1,
+                           ifelse(as.numeric(EDA) >= 11 & as.numeric(EDA)<=20,2,
+                                  ifelse(as.numeric(EDA) >= 21 & as.numeric(EDA)<=30,3,
+                                         ifelse(as.numeric(EDA) >= 31 & as.numeric(EDA)<=40,4,5))))
+
+detach(SDEMT215) 
+
+DataTable (SDEMT215$EDA111)
+
+#4.1.1 Comparacion de los tres metodos
+require (questionr)
+wtd.table(SDEMT215$EDAD11)
+wtd.table(SDEMT215$EDAD111)
+
+table (SDEMT215$EDAD11)
