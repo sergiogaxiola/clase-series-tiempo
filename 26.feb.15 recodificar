@@ -14,28 +14,36 @@ COE2T215<-data.frame(read.dbf("COE2T215.dbf"))
 
 #Metodo 1
 #attach(SDEMT215)
-SDEMT215$EDAD11[as.numeric(SDEMT215$EDA) >= 0 & as.numeric(SDEMT215$EDA)<=10] <- 1
-SDEMT215$EDAD11
-SDEMT215$EDAD11[as.numeric(SDEMT215$EDA) >= 11 & as.numeric(SDEMT215$EDA)<=20] <- 2
-SDEMT215$EDAD11[as.numeric(SDEMT215$EDA) >= 21 & as.numeric(SDEMT215$EDA)<=30] <- 3
-SDEMT215$EDAD11[as.numeric(SDEMT215$EDA) >= 31 & as.numeric(SDEMT215$EDA)<=40] <- 4
-SDEMT215$EDAD11[as.numeric(SDEMT215$EDA) >= 41] <- 5          
+SDEMT215$CLASE2.1[as.numeric(SDEMT215$CLASE2) >= 0 & as.numeric(SDEMT215$EDA)<=2] <- 1
+SDEMT215$CLASE2.1[as.numeric(SDEMT215$EDA) >= 3 & as.numeric(SDEMT215$EDA)<=4] <- 2
+
 #detach(SDEMT215) 
 
   #Metodo3
 attach(SDEMT215)
-SDEMT215$EDAD111 <- ifelse(as.numeric(EDA) >= 0 & as.numeric(EDA)<=10,1,
-                           ifelse(as.numeric(EDA) >= 11 & as.numeric(EDA)<=20,2,
-                                  ifelse(as.numeric(EDA) >= 21 & as.numeric(EDA)<=30,3,
-                                         ifelse(as.numeric(EDA) >= 31 & as.numeric(EDA)<=40,4,5))))
+SDEMT215$CLASE2.2 <- ifelse(as.numeric(CLASE2) >= 1 & as.numeric(CLASE2)<=2,1,
+                           ifelse(as.numeric(CLASE2) >= 3 & as.numeric(CLASE2)<=3,2, 3))
 
 detach(SDEMT215) 
 
-DataTable (SDEMT215$EDA111)
+DataTable (SDEMT215$CLASE2.1)
 
 #4.1.1 Comparacion de los tres metodos
 require (questionr)
-wtd.table(SDEMT215$EDAD11)
-wtd.table(SDEMT215$EDAD111)
+wtd.table(SDEMT215$CLASE2.1)
+wtd.table(SDEMT215$CLASE 2.2)
 
 table (SDEMT215$EDAD11)
+########################### EJERCICIO RECODIFICAR VARIABLE EDAD#########################
+### 0 A 14= 1 NIÑ@S, 15 A 29=  2 JOVENES, 30 A 59= 3 ADULTOS , 60 A 97 = 4 ADULTOS MAYORES , 98Y 99= 5 NO ESPECIFICADO
+#### POR LOS DOS METODOS.... 
+### DESPUES ETIQUETAN LOS GRUPOS (SI DA TIEMPO))
+#### COMPARAR METODOS#############
+
+#### VER PIRAMIDE POBLACIONAL
+1
+
+
+
+
+
