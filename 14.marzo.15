@@ -1,0 +1,58 @@
+##### 1. simulaciÃ³n de series de tiempo########
+### vamos a simular 1 indicador##### 
+### para la simulaciÃ³n en principio necesitamos alguna informaciÃ³n... 
+#### valor mÃ¡ximo, minimo, el numero de datos 
+
+### en este ejemplo vamos a proponer la poblaciÃ³n en MÃ©xico
+### que el valor minimo seran 100, max 120, 15 datos que inicie en 2000
+pob <- sample (100:120, 15, replace = F)
+### la convertimos en serie de tiempo
+pobts <- ts (pob, frequency = 1, start = (2000))
+plot (pobts) #### darle formato
+plot (aggregate (pobts))
+############### bajar del inegi la ocupacion  de las personas.... 
+#### importar csv
+#### importar csv
+ocu<-ts(read.csv(("C:\\Users\\SALA-C7\\Desktop\\ocupa.csv"), header = F),frequency=4, start=2005);
+ocu<-ts(read.csv("C:\\Users\\SALA-C7\\Desktop\\ocupa.csv"),frequency=4, start=2005);
+
+plot (ocu) #### darle formato
+plot (aggregate (ocu))### darle formato
+######################### desocupados simula
+Desocupados<-sample(3:8, 44, replace=TRUE)#
+desocuts<-ts(Desocupados, frequency=4, start=(2005))# 
+
+
+### importando base de inegi
+desocu<-ts(read.csv(("C:\\Users\\SALA-C7\\Desktop\\desocu.csv"), header = F),frequency=4, start=2005);
+plot (desocu)
+plot(cbind(desocuts, desocu)) #### darle formato a la grafica
+
+
+
+##### importar la matriz del inegi..
+
+indi3<-ts(read.csv(("C:\\Users\\SALA-C7\\Desktop\\3 indicadores.csv"), header = T),frequency=4, start=2005);
+class (indi3)
+desoparcial <- ts(indi3[,1], start =2005, freq = 4)
+asala <- ts(indi3[, 2], start = 2005, freq = 4)
+til1 <- ts(indi3[,3], start = 2005, freq = 4)
+seriemultiple<-ts.intersect(desoparcial,asala,til1)# Serie de tiempo multiple con las 4 variables
+seriemultiple
+plot(seriemultiple, main="Serie de tiempo mÃºltiple", xlab="AÃ±os",  ylab="Numero de personas", col="salmon") #Grafica serie de tiempo multiple
+#################### separar la serie de tiempo dependiendo del analisi
+seriemultiple05.09<-window(seriemultiple, start=c(2005,1), end=c(2009,4))
+seriemultiple10.15<-window(seriemultiple, start=c(2010,1), end=c(2015,4))
+plot (seriemultiple05.09, main="Serie de tiempo mÃºltiple", xlab="AÃ±os",  ylab="Numero de personas", col="brown")
+plot (seriemultiple10.15, main="Serie de tiempo mÃºltiple", xlab="AÃ±os",  ylab="Numero de personas", col="violet")
+start(seriemultiple); end(seriemultiple)
+
+##############Ejercicio Buscar una serie de tiempo de un tema de interes!°!!!!!!
+#### 1) IMPORTARLAS,
+#### 2)DECLARARLAS SERIES DE TIEMPO,
+##### #) graFICAR LAS VARIABLES SEPARADAS
+##  3) GRAFICARLAS JUNTAS COMO SERIES DE TIEMPO 
+#### 4) CRERAR SERIE DE TIEMPO MULTIPLE....
+
+
+
