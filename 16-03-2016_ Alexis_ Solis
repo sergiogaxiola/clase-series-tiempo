@@ -1,0 +1,82 @@
+#### Generar 4 objetos con datos aleatorios y que tengan 60 datos
+### dato 1 de n?mero de profesionista (mill)rango de 5 a 8
+### dato 2 crec pib rango de 0 a 5
+### dato 3 porcentaje de ocupados rango de 40 a 60
+### dato 4 porcentaje de desocupados rango de 3 a 8
+
+pob <- sample(5:8, 60, replace = T)
+pob
+
+cre_pib <- sample(0:5, 60, replace = T )
+cre_pib
+
+ocu <- sample(40:60, 60, replace = T)
+ocu
+
+desocu <- sample(3:8, 60, replace = T)
+desocu
+
+#### 1) una vez que generen los datos hacer un data frame de los 4 objetos
+
+info <- data.frame(pob, cre_pib, ocu, desocu)
+info
+
+#### 2) mostrar en consola los primeros 12 y ultimos 12 datos
+
+info[(1:12),];info[(48:60),]
+
+#### 3) convertir los objetos en series de tiempo desde el data frame comezando en 2010 y son datos mensuales
+
+st_pob <- ts(info$pob, start = 2010, freq= 12)
+
+st_ocu <- ts(info$ocu, start = 2010, freq= 12)
+
+st_cre_pib <- ts(info$cre_pib, start = 2010, freq= 12)
+
+st_desocu <- ts(info$desocu, start = 2010, freq= 12)
+
+st_info <- ts(info, start = 2010, freq= 12)
+
+#### 4) graficar los profesionistas y ocupados en la misma imagen
+
+pob_ocu <- ts.intersect(st_pob, st_ocu)
+
+plot(pob_ocu, xlab="Años", ylab="Número de Personas (millones)", 
+     main= "Serie de Tiempo Población", col= "Green")
+
+#### 5) graficar pib y desocupados en la misma imagen
+
+pib_desoc <- ts.intersect(st_cre_pib, st_desocu)
+
+plot(pib_desoc, xlab="Años", ylab="Tasa de Crecimiento", 
+     main= "Serie de Tiempo Crecimiento Porcentual", col= "Red")
+
+#### 6) graficar todas juntas
+
+plot(st_info, xlab="Años", main= "Serie de Tiempo General",
+     col= "Purple")
+
+#### 7) creaR serie de tiempo multiple
+
+st_multiple <- ts.intersect(st_pob, st_ocu, st_desocu, st_cre_pib)
+
+#### 8 ) graficar serie de tiempo multiple
+
+plot(st_multiple, xlab="Años", main= "Serie de Tiempo General",
+     col= "Black")
+
+#### 9 ) dividir serie de tiempo y graficar solo el ultimo año
+
+mult <- window(st_multiple, start= c(2014,1), end= c(2014,12))
+plot(mult, xlab="Años", ylab="Número de Personas", 
+     main= "Serie de Tiempo Múltiple", col= "Red")
+
+#### 10 ) analizar las graficas ( si hay alguna tendencia o variacion estacional) 
+help(descompose)
+??descompose
+library(stats)
+
+descomposicion1 <- decompose(st_multiple, type="mult")
+descomposicion1
+
+## ELABORÓ; ALEXIS SOLIS HERNÁNDEZ
