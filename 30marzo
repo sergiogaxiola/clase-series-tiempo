@@ -1,0 +1,84 @@
+desoc<-sample(3:8,44,replace = T)### En este caso , es TRUE porque si queremos un reemplazo
+tdesoc<-ts(desoc,frequency = 4,start = (2005))
+
+
+### La descomposición  de la serie de tiempo nos permite conocer la estacionalidad, la tendencia
+# y la aleatoriedad de la ST
+###3 para descomponer una serie de tiempo se utiliza la funcion de decompose()
+#### para descomponer una ST 
+tdesocadi <- decompose(tdesoc)
+### Para ver graficamente una descomposición de la ST en R exiten 
+#### dos formas de graficar la descomposición 
+#1) directo de la serie de tiempo
+plot(decompose(tdesoc))
+plot(tdesocadi)
+#### en estos casos nos debe dar los mismos resultados
+#### ahora como vimos la clase pasada hay dos modelos que podemos descomponer la ST
+#### 1) modelo aditivo......x t = m t + s t + z t
+#### 2) modelo multiplicativo .... x t = m t · s t + z t
+
+##### ahora para descomponer una serie en un modelo aditivo.... 
+#tdesocadi <- decompose(tdesoc) ### aqui es para descomponer la serie de tiempo  por default nos 
+### da el modelo aditivo
+#### ahora para descomponer una ST en un modelo multiplicativo 
+tdesocmult <- decompose(tdesoc, type = "mult")
+################# graficamos los dos modelos
+plot(tdesocadi)
+plot (tdesocmult)
+###3 ahora bien como mencionamos anteriormente al descomponer una ST tenemos diversos elementos
+#la descomposicion de ST nos genera diversos elementos como la estacionalidad, la tendencia
+# y la aleatoriedad..... son los elementos que nos interesan....para esto se utiliza la 
+# función names()
+names (tdesocadi) ### con names mandamos llamar los elementos que tiene el objeto 
+names (tdesocmult)
+
+### Ahora para asignar un objeto para los elementos que nos interesan se realiza de la sig
+### manera
+
+
+tendad <- tdesocadi$trend#### asignamos la tendencia del modelo aditivoa
+tendmult <- tdesocmult$trend #### asignamos la tendencia del modelo multiplicativo
+estadi <- tdesocadi$seasonal### asignamos la estacionalidad del modelo aditivoa
+estmult <- tdesocmult$seasonal#### asignamos la estacionalidad del modelo multiplicativo
+#### ahora para graficar la tendencia, estacionalidad... etc
+
+ts.plot(cbind(tendad, tendad * estadi), lty = 1:2) ### lty sirve para ver diferentes tipos de
+## lineas
+
+######################## algunos de las funciones utilizadas en ST 
+
+ts ## genera una ST de un objeto... 
+window ### extrae o divide uan ST 
+ts.plot### GRAFICA ST 
+decompose ### DESCOMPONe una st en sus principales elementos
+
+
+####################################EJERCICIO####################
+### CON LAS BASES DE DESOCUPACION, TCCO, ASALARIADOS, TIL1 Y TOSI1
+### descomponer en modelo aditivo y multiplicativo
+### graficarlos 
+#### extraer la tendencia y estacionalidad y aleatoriedad
+## exportar la tendencia y estaciona y aleatoriedad en 3 columnas en excel 
+#### graficar... tendencia y tendencia * estacionalidad en R
+
+
+
+
+
+
+#### una vez que logramos descomponer la st en diversos los elementos de estacionalidad 
+#y tendencia hay que desestacionalizar la st y eliminar la tendencia ######
+###3 para desestacionalizar y eliminar la tendencia necesitamos conocer la correlacion de 
+### las variables para realizar mejores pronosticos de nuestra serie de tiempo 
+### la correlacion estructura en ST esta determinada por la función de correlacion y se estima
+### para la ST observada 
+desocu
+
+ocu<-ts(read.csv(("/home/sgr/Dropbox/Dropbox1/fac economia/actuaria/series de tiempo/desoc, asal y til1.csv"), header = T),frequency=4, start=2005);
+
+deso <- ocu [,1]
+asa <- ocu [,2]
+n<- length(ocu)
+sum((deso - mean(deso))*(asa - mean(asa))) / (n - 1)
+mean((deso - mean(deso)) * (asa - mean(asa)))
+cov (deso, asa)
