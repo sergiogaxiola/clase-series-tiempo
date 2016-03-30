@@ -1,0 +1,69 @@
+AM <-  ts(read.csv(("C:\\Users\\SALA-C7\\Documents\\AM.csv"), header= T), frequency = 252, start = 2001)
+AM
+View(AM)
+
+#Creando el modelo aditivo
+
+am_des <- decompose(AM)
+
+#Ralizando la gráfica
+
+plot(am_des)
+
+#Realñizando un modelo multiplicativo
+
+am_des_mult <- decompose(AM, type = "mult")
+
+#Graficando
+
+plot(decompose(AM, type = "mult"))
+
+#Creando 3 objetos que tengan las caracteristicas de la descomposicióbn de modelos
+##PARA EL MODELO ADITIVO
+
+ten_ad <- am_des$trend
+est_ad <- am_des$seasonal
+ale_ad <- am_des$random
+
+##CREANDO LA TABLA PARA MODELO ADITIVO
+
+tab_ad <- data.frame(ten_ad, est_ad, ale_ad)
+
+##PARA EL MODELO MULTIPLICATIVO
+
+ten_mult <- am_des_mult$trend
+est_mult <- am_des_mult$seasonal
+ale_mult <- am_des_mult$random
+
+##CREANDO LA TABLA PARA MODELO MULTIPLICATIVO
+
+tab_mult <- data.frame(ten_mult, est_mult, ale_mult)
+
+#GRAFICANDO
+
+ts.plot(cbind(ten_ad, ten_ad*est_ad), main= "Gráfico Serie de Tiempo Aditivo",
+        xlab= "Años", ylab= "Tendencia", lty= 139:255, col= c("red", "blue"))
+
+ts.plot(cbind(ten_mult, ten_mult*est_mult), main= "Gráfico Serie de Tiempo Multiplicativo",
+        xlab= "Años", ylab= "Tendencia", lty= 139:255, col= c("green", "blue"))
+
+## EXPORTANDO LAS TABLAS A EXCEL 
+
+View(tab_ad)
+View(tab_mult)
+
+install.packages("XLConnect")
+require(XLConnect)
+exportar<-loadWorkbook("TELMEX_AD_MULT.xlsx",create=TRUE)
+
+#EXPORTAR TABLA 1
+createSheet(exportar, "tab_ad")
+createName(exportar,name="tab_ad", formula="tab_ad!$A$1")
+writeNamedRegion(exportar,tab_ad,name = "tab_ad")
+#EXPORTAR TABLA 2
+createSheet(exportar, "MULTIPLICATIVO")
+createName(exportar,name="MULTIPLICATIVO", formula="MULTIPLICATIVO!$A$1")
+writeNamedRegion(exportar,tab_mult,name = "MULTIPLICATIVO")
+
+#GUARDAD LIBRO EXCEL
+saveWorkbook(exportar)
