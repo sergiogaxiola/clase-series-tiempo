@@ -1,5 +1,102 @@
+#NORMALMENTE SE UTILIZA EL MODELO ADITIVO ...Este modelo es apropiado 
+#cuando la magnitud de las fluctuaciones estacionales de la serie no varıa al hacerlo la
+#tendencia.
+
+### SE UTILIZA MULTIPLICATIVO 
+
+#cuando la magnitud de las fluctuaciones estacionales de la serie crece y decrece
+#proporcionalmente con los crecimientos y decrecimientos de la tendencia, respect.
+
 #### una vez que logramos descomponer la st en diversos los elementos de estacionalidad 
 #y tendencia hay que desestacionalizar la st y eliminar la tendencia ######
+
+#### EXISTE TENDENCIA CUANDO existe un patron en los datos  a largo plaza ya sea 
+### que aumenta o disminuye los datos 
+##### la estacionalidad existe cuando 
+### la ST cuando es influenciado por factores estacionales (por ejemplo, la
+###trimestre del año , el mes , o el día de la semana).
+### existen componente de ciclico en los datos cuando 
+##se detectan  incrementos y caídas que no son de tiempo determinado
+##(duración por lo general de al menos 2 años ).
+
+###3 DE estos 3 elemenos normalmente existen confusiones para detectarlos entre 
+### la estacionalidad y el componente ciclico
+###Principales diferencias entre estos dos componentes 
+# 1( patrón estacional longitud constante ; patrón cíclico Longitud variable
+# 2(  duración media del componente ciclico  más largo que la longitud del patrón estacional)
+#3) magnitud de ciclico más variable que magnitud del patrón estacional
+#4)  El momento de picos y caidas es predecible con los datos estacionales 
+#, pero impredecible a largo plazo con datos cíclicos .
+
+install.packages("fpp")
+require (fpp)
+help (fpp)
+plot(window(elec,start=1980),ylab="GWh",xlab="Year",main="Australian electricity production")
+##ESTAcionalida, TENDENCIA Y  no CICLICO
+plot(bricksq,ylab="million units",xlab="Year",main="Australian clay brick production")
+###ESTA Y CICLO NO MUCHO TENDENCIOA
+plot(hsales,main="Sales of new one-family houses, USA",ylab="Total sales",xlab="Year")
+#NO ESTA NI TENDENCIA, POSIBLE CICLO
+###############3EJEMPLOS GRAFICAS DETECTAR TENDENCIA, ESTACIONALIDAD Y CICLO
+ica <- read.csv ("/home/sgr/Desktop/ica.csv", header =T)
+icats <- ts(ica [,5], start = 2000, frequency = 12)
+plot(icats , main="valor acciones ICA",
+     ylab="valor cierre")
+tele <- read.csv ("/home/sgr/Desktop/televisa.csv", header = T)
+telets <- ts(ica [,5], start = 2000, frequency = 12)
+plot(telets, , main="valor acciones televisa",
+     ylab="valor cierre")
+bimbo <- read.csv ("/home/sgr/Desktop/bimbo.csv", header = T)
+bimbots <- ts(bimbo [,5], start = 2000, frequency = 12)
+plot(bimbots,   main="valor acciones bimbo",
+     ylab="valor cierre")
+
+
+### ahora bien una vez que tenemos y conocemos la gr[afica para determinar con mayor precision
+### las tendencias y estacionalidad se utiliza la funcion season plot que esta en la libreria fpp]
+install.packages ("fpp")
+require (fpp)
+seasonplot(icats,s= 12, year.labels=TRUE,
+           main="valor acciones ICA",
+           ylab="valor cierre",col=rainbow(20),year.labels.left=TRUE,pch=19)
+
+monthplot(icats,ylab="valor cierre",xlab="Month",
+          main="valor acciones ICA")
+
+
+
+###3 para desestacionalizar y eliminar la tendencia necesitamos conocer la correlacion de 
+### las variables para realizar mejores pronosticos de nuestra serie de tiempo 
+
+### en muchas casos las variables estan correlacionadas... entonces si nosotros logramos 
+#identificar la correlacion podemos mejorar los pronosticoa si las correlaciones son altasst 
+### la correlacion estructura en ST esta determinada por la función de correlacion y se estima
+### para la ST observada 
+### para obtener la correlación se necesita obytener primero la covarianza
+#### 
+
+############ covarianza 
+## la covarianza es una medida de asociación entre dos variables
+### Cov(x, y) =(x i − x (media))(y i − y ((media)))/(n − 1)
+#ejemplo en R
+ocu<-ts(read.csv(("/home/sgr/Dropbox/Dropbox1/fac economia/actuaria/series de tiempo/desoc, asal y til1.csv"), header = T),frequency=4, start=2005);
+x <- ocu [,1]
+y <- ocu [,2]
+n<- length(x)
+sum((x - mean(x))*(y - mean(y))) / (n - 1) ## calculamos la covarianza  con formula
+cov(x, y) ### funcion de R para obtener la covarianza
+## la correlacion tambien es una medida de relacion entre dos variables que permite 
+
+#Cor(x, y) = Cov(x, y) \ sd(x)sd(y)
+
+cov(x,y) / (sd(x)*sd(y)) #calculamos la correlacion con formula
+
+cor(x,y) # funcion de R para obtener la correlacion 
+
+#################3la correlaci[on nos permite conocer si existe un problema para realizar 
+### el pronostico de nuestra St ]
+
+Status 
 
 #### EXISTE TENDENCIA CUANDO existe un patron en los datos  a largo plaza ya sea 
 ### que aumenta o disminuye los datos 
@@ -77,3 +174,4 @@ cor(x,y) # funcion de R para obtener la correlacion
 #################3la correlaci[on nos permite conocer si existe un problema para realizar 
 ### el pronostico de nuestra St ]
 
+Status 
