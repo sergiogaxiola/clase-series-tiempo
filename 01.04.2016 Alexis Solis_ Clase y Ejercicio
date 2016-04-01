@@ -1,0 +1,59 @@
+#PARA REALIZAR PRONÓSTICOS
+#Realizó: Alexis Solis Hernández
+install.packages("fpp")
+require(fpp)
+help(fpp)
+
+#GRAFICA CON ESTACIONALIDAD, TENDENCIAS Y NO CICLICA
+plot(window(elec, start= 1980), ylab= "Gwh", xlab= "Year", main= "Australian electricity production")
+
+#GRAFICA CON ESTACIONMALIDAD, Y CICLICA CON NO MUCHA TENDENCIA
+
+plot(bricksq, ylab= "millons units", xlab="year", main= "Australian clay brick production")
+
+#GRAFICA SIN TENDENCIA, SIN ESTACIONALIDAD, PERO SI UN POSIBLE CICLO
+
+plot(hsales, main= "Sales of new one- family houses, USA", ylab= "Total sales", xlab= "year")
+
+
+##EJERCICIO
+
+#Bajando la base de datos
+
+bimbo <- read.csv("C:\\Users\\SALA-C7\\Documents\\bimbo.csv", header = T)
+cemex <- read.csv("C:\\Users\\SALA-C7\\Documents\\cemex.csv", header = T)
+gruma <- read.csv("C:\\Users\\SALA-C7\\Documents\\gruma.csv", header = T)
+
+#Convirtiendo a serie de tiempo
+
+st_bimbo <- ts(bimbo [,5], frequency = 12, start = 2000)
+st_cemex <- ts(cemex [,5], frequency = 12, start = 2000)
+st_gruma <- ts(gruma [,5], frequency = 12, start = 2000)
+
+#Graficando la serie de tiempo
+jpeg(filename = "C:\\Users\\SALA-C7\\Documents\\bimbo.jpg")
+plot(st_bimbo, main= "Precios Bimbo ", ylab= "Precios", xlab= "Año", col= 475)
+dev.off()
+jpeg(filename = "C:\\Users\\SALA-C7\\Documents\\cemex.jpg")
+plot(st_cemex, main= "Precios Cemex ", ylab= "Precios", xlab= "Año", col= 475)
+dev.off()
+jpeg(filename = "C:\\Users\\SALA-C7\\Documents\\gruma.jpg")
+plot(st_gruma, main= "Precios Gruma ", ylab= "Precios", xlab= "Año", col= 475)
+dev.off()
+
+
+#Realizando el análisis de las 3 graficas, podemos notar lo siguiente:
+## Bimbo: Muestra cierta tendencia ascendente desde el año 2000 hasta el 2010, 
+## con ciertas subidas y bajadas, sin en cambio a partir del 2010 se mostro una caida
+## y desde entonces se ha recuperado poco a poco, por lo que se considera la existencia
+## de un ciclo, además no hay tendencia.
+
+## Cemex: Muestra una poca tendwencia durante los primeros años, sin en cambio, a partir
+## del 2005, se notan dos cambios abruptos, los cuales consideramos ciclos, y a partir
+## de esto, se nota una caida en el precio de los acciones.
+
+## Gruma: Durante los primeros años notamos una tendencia neutra  (estacionalidad) en el precio de sus
+## acciones, sin en cambio a partir del año 2010 se nota una tendencia a la alza, y se ha mantenido
+## asi, durante los siguientes años.
+
+## Es asi, como se conlcuye que la mejor emmpresa para invertir es "GRUMA"
