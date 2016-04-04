@@ -1,0 +1,79 @@
+### ahora bien una vez que tenemos y conocemos la gr[afica para determinar con mayor precision
+### las tendencias y estacionalidad se utiliza la funcion season plot que esta en la libreria fpp]
+install.packages ("fpp")
+require (fpp)
+seasonplot(icats,s= 12, year.labels=TRUE,
+           main="valor acciones ICA",
+           ylab="valor cierre",col=rainbow(20),year.labels.left=TRUE,pch=19)
+
+##### con monthplot pódemos hacer un analisis de la st dependiendo del periodo 
+## de los datos por ejemplo si tenemos trimestral se pueden analizar los 4 trimestres.... en grafica
+
+monthplot(icats,ylab="valor cierre",xlab="Month",
+          main="valor acciones ICA")
+
+########### funciones utilizadas
+ST graficas
+plot or plot.ts
+Grafica de temporalidad 
+seasonplot
+graficas de subseries temporales 
+monthplot
+
+#######################CORRELACION Y COVARIANZA
+#Covarianza y correlación : medida del grado
+#relación lineal entre dos variables (y Y x).
+
+### auto covarianza y auto correlaccion
+###3 Autocovariancia y autocorrelación : medida
+#relación lineal entre los valores retardados de una
+#series de tiempo y.
+
+# se mide  la relación entre: yt and yt−1
+#yt and yt−2
+#yt and yt−3, etc.
+
+
+
+###3 para desestacionalizar y eliminar la tendencia necesitamos conocer la correlacion de 
+### las variables para realizar mejores pronosticos de nuestra serie de tiempo 
+
+### en muchas casos las variables estan correlacionadas... entonces si nosotros logramos 
+#identificar la correlacion podemos mejorar los pronosticoa si las correlaciones son altasst 
+### la correlacion estructura en ST esta determinada por la función de correlacion y se estima
+### para la ST observada 
+
+###Autocorrelación
+# a veces sucede que  los valores que toma una variable en el tiempo no
+#son independientes entre sí, sino que un valor determinado depende de los valores anteriores,
+
+
+### para obtener la correlación se necesita obytener primero la covarianza
+#### 
+
+############ covarianza 
+## la covarianza es una medida de asociación entre dos variables
+### Cov(x, y) =(x i − x (media))(y i − y ((media)))/(n − 1)
+#ejemplo en R
+ocu<-ts(read.csv(("/home/sgr/Dropbox/Dropbox1/fac economia/actuaria/series de tiempo/desoc, asal y til1.csv"), header = T),frequency=4, start=2005);
+asal <- ocu [,1]
+desoc <- ocu [,2]
+n<- length(asal)
+sum((asal) - mean(asal))*(desoc - mean(desoc))) / (n - 1) ## calculamos la covarianza  con formula
+cov(x, y) ### funcion de R para obtener la covarianza
+## la correlacion tambien es una medida de relacion entre dos variables que permite 
+
+#Cor(x, y) = Cov(x, y) \ sd(x)sd(y)
+
+cov(x,y) / (sd(x)*sd(y)) #calculamos la correlacion con formula
+
+cor(x,y) # funcion de R para obtener la correlacion 
+
+#################3la correlaci[on nos permite conocer si existe un problema para realizar 
+### el pronostico de nuestra St ]
+### una alta correlacion nos indica que al 
+
+Acf (beer, "type = correlation", plot = F)
+
+#### EJERCICIOS
+
