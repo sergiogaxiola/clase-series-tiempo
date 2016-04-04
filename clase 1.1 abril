@@ -1,16 +1,34 @@
-### ahora bien una vez que tenemos y conocemos la gr[afica para determinar con mayor precision
-### las tendencias y estacionalidad se utiliza la funcion season plot que esta en la libreria fpp]
+ica <- read.csv ("C:\\Users\\SALA-C7\\Desktop\\ica.csv", header =T)
+icats <- ts(ica [,5], start = 2000, frequency = 12)
+plot(icats , main="valor acciones ICA",
+     ylab="valor cierre")
+tele <- read.csv ("/home/sgr/Desktop/televisa.csv", header = T)
+telets <- ts(ica [,5], start = 2000, frequency = 12)
+plot(telets, , main="valor acciones televisa",
+     ylab="valor cierre")
+bimbo <- read.csv ("/home/sgr/Desktop/bimbo.csv", header = T)
+bimbots <- ts(bimbo [,5], start = 2000, frequency = 12)
+plot(bimbots,   main="valor acciones bimbo",
+     ylab="valor cierre")
+
+## ahora bien una vez que tenemos y conocemos la gr[afica
+#para determinar con mayor precision
+### las tendencias y estacionalidad se utiliza la funcion season 
+#plot que esta en la libreria fpp]
+
 install.packages ("fpp")
 require (fpp)
+help (fpp)
 seasonplot(icats,s= 12, year.labels=TRUE,
            main="valor acciones ICA",
-           ylab="valor cierre",col=rainbow(20),year.labels.left=TRUE,pch=19)
+           ylab="valor cierre",col=1:20,year.labels.left=TRUE,pch=1)
 
 ##### con monthplot pódemos hacer un analisis de la st dependiendo del periodo 
 ## de los datos por ejemplo si tenemos trimestral se pueden analizar los 4 trimestres.... en grafica
 
 monthplot(icats,ylab="valor cierre",xlab="Month",
           main="valor acciones ICA")
+help (monthplot)
 
 ########### funciones utilizadas
 ST graficas
@@ -19,55 +37,69 @@ Grafica de temporalidad
 seasonplot
 graficas de subseries temporales 
 monthplot
-
 #######################CORRELACION Y COVARIANZA
 #Covarianza y correlación : medida del grado
 #relación lineal entre dos variables (y Y x).
-
 ### auto covarianza y auto correlaccion
 ###3 Autocovariancia y autocorrelación : medida
 #relación lineal entre los valores retardados de una
 #series de tiempo y.
-
 # se mide  la relación entre: yt and yt−1
 #yt and yt−2
 #yt and yt−3, etc.
 
+###3 para desestacionalizar y eliminar la tendencia necesitamos conocer
+#la correlacion delas variables para realizar mejores pronosticos
+#de nuestra serie de tiempo 
 
-
-###3 para desestacionalizar y eliminar la tendencia necesitamos conocer la correlacion de 
-### las variables para realizar mejores pronosticos de nuestra serie de tiempo 
-
-### en muchas casos las variables estan correlacionadas... entonces si nosotros logramos 
-#identificar la correlacion podemos mejorar los pronosticoa si las correlaciones son altasst 
-### la correlacion estructura en ST esta determinada por la función de correlacion y se estima
+### en muchas casos las variables estan correlacionadas...
+#entonces si nosotros logramos identificar la correlacion 
+#podemos mejorar los pronosticoa si las correlaciones son altasst 
 ### para la ST observada 
-
 ###Autocorrelación
 # a veces sucede que  los valores que toma una variable en el tiempo no
-#son independientes entre sí, sino que un valor determinado depende de los valores anteriores,
-
-
+#son independientes entre sí, sino que un valor determinado 
+#depende de los valores anteriores,
 ### para obtener la correlación se necesita obytener primero la covarianza
 #### 
-
 ############ covarianza 
+#ejercicio en r verifiquen que la formula de la covarianza
+# y la correlacion den e mismo resultado que las funciones cov(x,y) 
+#y cor (x,y)
 ## la covarianza es una medida de asociación entre dos variables
-### Cov(x, y) =(x i − x (media))(y i − y ((media)))/(n − 1)
+#Cor(x, y) = Cov(x, y) \ sd(x)sd(y)
+### Cov(x, y) =suma((xi − x (media))(yi − y ((media))))/(n − 1)
 #ejemplo en R
-ocu<-ts(read.csv(("/home/sgr/Dropbox/Dropbox1/fac economia/actuaria/series de tiempo/desoc, asal y til1.csv"), header = T),frequency=4, start=2005);
+ocu<-ts(read.csv(("C:\\Users\\SALA-C7\\Desktop\\3 indicadores.csv"), header = T),frequency=4, start=2005);
 asal <- ocu [,1]
 desoc <- ocu [,2]
 n<- length(asal)
-sum((asal) - mean(asal))*(desoc - mean(desoc))) / (n - 1) ## calculamos la covarianza  con formula
-cov(x, y) ### funcion de R para obtener la covarianza
+sum(((asal) - mean(asal))*(desoc - mean(desoc))) / (n - 1) ## calculamos la covarianza  con formula
+cov(asal, desoc) ### funcion de R para obtener la covarianza
 ## la correlacion tambien es una medida de relacion entre dos variables que permite 
-
 #Cor(x, y) = Cov(x, y) \ sd(x)sd(y)
 
-cov(x,y) / (sd(x)*sd(y)) #calculamos la correlacion con formula
+cov(asal,desoc) / (sd(asal)*sd(desoc)) #calculamos la correlacion con formula
 
-cor(x,y) # funcion de R para obtener la correlacion 
+cor(asal,desoc) # funcion de R para obtener la correlacion 
+
+EJERCICIo 
+
+### 1) ANALIZAR LOS AÑOS DE LAS 3 EMPRESAS ELEGIDAS (seasonplot) Y
+#ELEEGIR LOS 3 AÑOS QUE UBIQUEN CON ESTACIONALIDAD, CICLO O TENDENCIA....
+#INTERPRETAR ESTOS 3 AÑOS
+#### 2) CACULAR CON LA FORMULA Y LA FUNCION DE COVARIANZA Y CORRELACION EN 
+#### LA COMBINACIÓN DE LAS 3 EMPRESAS, ES DECIR, 
+#### EMPRESA 1 = X, EMPRE2 = Y Y EMPRE3 = Z, CALCULAR LAS CORRELACION DE
+## cor (x,y), cor(y,z) y cor (x,z) para hacerlas "compatibles" uutilicen
+### el window
+
+
+
+
+
+
+
 
 #################3la correlaci[on nos permite conocer si existe un problema para realizar 
 ### el pronostico de nuestra St ]
@@ -76,4 +108,3 @@ cor(x,y) # funcion de R para obtener la correlacion
 Acf (beer, "type = correlation", plot = F)
 
 #### EJERCICIOS
-
