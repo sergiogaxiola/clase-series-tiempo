@@ -1,0 +1,134 @@
+##CLASE 04/04/2016
+##Alexis Solis Hernández
+
+##Una vez que teemos las graficas para buscar una mayor presición en la estacionalidad
+##y las tendencias se utiliza la función season plot dentro de la libreria fpp
+
+library(fpp)
+##GRAFICA DE ESGTACIONALIDad
+seasonplot(st_bimbo, s=12, year.labels = TRUE, main = "Valor acciones Bimbo",
+           ylab = "Valor Cierre", col = rainbow(20), year.labels.left = TRUE, pch=19)
+seasonplot(st_cemex, s=12, year.labels = TRUE, main = "Valor acciones Cemex",
+           ylab = "Valor Cierre", col = rainbow(20), year.labels.left = TRUE, pch=19)
+seasonplot(st_gruma, s=12, year.labels = TRUE, main = "Valor acciones Gruma",
+           ylab = "Valor Cierre", col = rainbow(20), year.labels.left = TRUE, pch=19)
+
+##Con mononplot podemos hacer el análisis de una subserie de la serie de tiempo
+monthplot(st_bimbo, main = "Valor acciones Bimbo",
+           ylab = "Valor Cierre", xlab="Mes")
+
+
+##Con varianza y varianza podemos ontener la relación lineal entre dos variables
+##Autocovarianza y autocorrelación es la medida de rekaciionn l0linealentre los valores retardados
+##de una serie de tiempo y. Se mide la relación entr yt y t-1
+##yt y yt-2
+##yt y yt-3
+
+##Para desestacionalizar y eliminar la tendencia necesitajos conocer ksa autocorrelación
+##para mejores pronosticos de la serie de tiempo
+
+##En muchos casos las variables estan correlacionadas, entonces si logramos identificar la correción 
+##podemos mejorasr lod ptonodticod si las correlaciones son altas para SST observada
+
+##Para conocer la correlación se necitra priumero la covarianza
+###La covarianza es una medida de asociación entre dos variables
+##Cor(x,y)=cov(x,y)\sd(x)sd(y)
+##cov(x,y)= suma(xi-x(media))(yi-y(media)))/(n-1)
+
+###EJERCICIO: Verificar que los resultados son iguales
+
+##Manual (Bimbo, Cemex)
+View(bimbo)
+x <- bimbo[,2]
+y <- bimbo[,5]
+n <- length(x)
+n
+
+##covarianza
+sum(((x)-mean(x))*(y-mean(y)))/(n-1)
+cov(x,y)
+
+##Correlación
+cor(x,y)
+sd(x)
+b <- (sd(x))*(sd(y))
+a <- cov(x,y)
+a/b
+##EJERCICIO: 
+#1) Analizar los años de las tres empresas elegidas (seasonplot) y elegir los 3 años 
+##que ubiquen estacionalidad, ciclo o tendencia, e interpretar datos
+#2) Calcular con la formula y la funcion de covarianza y correlacion en la combinación 
+##de las tres empresas, es decir (x,y), (y,z) y (z,x), para hacerlas compatibles 
+##usar window
+
+#1) Analizar los años de las tres empresas elegidas (seasonplot) y elegir los 3 años 
+##que ubiquen estacionalidad, ciclo o tendencia, e interpretar datos.
+
+seasonplot(st_bimbo, s=12, year.labels = TRUE, main = "Valor acciones Bimbo",
+           ylab = "Valor Cierre", col = rainbow(20), year.labels.left = TRUE, pch=19)
+seasonplot(st_cemex, s=12, year.labels = TRUE, main = "Valor acciones Cemex",
+           ylab = "Valor Cierre", col = rainbow(20), year.labels.left = TRUE, pch=19)
+seasonplot(st_gruma, s=12, year.labels = TRUE, main = "Valor acciones Gruma",
+           ylab = "Valor Cierre", col = rainbow(20), year.labels.left = TRUE, pch=19)
+
+##Dado el analisis graficos, podemos notar que existe cierta estacionalidad en los años
+##2007, 2008 y 2009, pues las líneas estan muy cercanas de si, además de que muestran
+##comportamiento similar
+
+#2) Calcular con la formula y la funcion de covarianza y correlacion en la combinación 
+##de las tres empresas, es decir (x,y), (y,z) y (z,x), para hacerlas compatibles 
+##usar window
+
+st_bimbo1 <-  window(st_bimbo, start= c(2007,1), end= c(2008,12))
+st_cemex1 <-  window(st_cemex, start= c(2007,1), end= c(2008,12))
+st_gruma1 <-  window(st_gruma, start= c(2007,1), end= c(2008,12))
+
+##Calculando los estimados:
+
+#X=BIMBO, Y=CEMEX, Z= GRUMA
+#Covarianza Manual(X=BIMBO, Y=CEMEX)
+x <- st_bimbo1
+y <- st_cemex1
+z <- st_gruma1
+n <- length(x)
+
+sum(((x)-mean(x))*(y-mean(y)))/(n-1)
+
+#Covarianza Formula(X=BIMBO, Y=CEMEX)
+cov(x,y)
+
+#Correlación Manual(X=BIMBO, Y=CEMEX)
+cov(x,y)/(sd(x)*sd(y))
+
+#Correlación Formula(X=BIMBO, Y=CEMEX)
+cor(x,y)
+
+#Covarianza Manual(X=BIMBO, Z=GRUMA )
+
+sum(((x)-mean(x))*(z-mean(z)))/(n-1)
+
+#Covarianza Formula(X=BIMBO, Y=CEMEX)
+cov(x,z)
+
+#Correlación Manual(X=BIMBO, Y=CEMEX)
+cov(x,z)/(sd(x)*sd(z))
+
+#Correlación Formula(X=BIMBO, Y=CEMEX)
+cor(x,z)
+
+#Covarianza Manual(Y=CEMEX, Z=GRUMA)
+
+y <- st_cemex1
+z <- st_gruma1
+n <- length(y)
+
+sum(((z)-mean(z))*(y-mean(y)))/(n-1)
+
+#Covarianza Formula(Z=GRUMA, Y=CEMEX)
+cov(z,y)
+
+#Correlación Manual(Z=GRUMA, Y=CEMEX)
+cov(z,y)/(sd(z)*sd(y))
+
+#Correlación Formula(Z=GRUMA, Y=CEMEX)
+cor(z,y)
