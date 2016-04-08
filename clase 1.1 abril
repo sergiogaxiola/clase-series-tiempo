@@ -1,110 +1,111 @@
-ica <- read.csv ("C:\\Users\\SALA-C7\\Desktop\\ica.csv", header =T)
-icats <- ts(ica [,5], start = 2000, frequency = 12)
-plot(icats , main="valor acciones ICA",
-     ylab="valor cierre")
-tele <- read.csv ("/home/sgr/Desktop/televisa.csv", header = T)
-telets <- ts(ica [,5], start = 2000, frequency = 12)
-plot(telets, , main="valor acciones televisa",
-     ylab="valor cierre")
-bimbo <- read.csv ("/home/sgr/Desktop/bimbo.csv", header = T)
-bimbots <- ts(bimbo [,5], start = 2000, frequency = 12)
-plot(bimbots,   main="valor acciones bimbo",
-     ylab="valor cierre")
+######### EXAMEN ########################
+# 2 PARTES
+##) 1 GENERAN UDS UN SCRIPT (EN LA COMPUTADORA)
+###) 2 YO LES ENTREGO UN SCRIPT Y LES DIGO EN QUE LINEAS (EN PAPEL)
 
-## ahora bien una vez que tenemos y conocemos la gr[afica
-#para determinar con mayor precision
-### las tendencias y estacionalidad se utiliza la funcion season 
-#plot que esta en la libreria fpp]
+### EXPIQUEN O REAICEN COMENTARIOS 
+###### ESTRUCTURA EXAMEN###########
+#### 1) MANEJO DE BASES DE DATOS EN R
+          #1) EXPORTAR BASES, ETIQUETAR, GENERAR UNA BASE 
+######### DE DATOS, RECODIFICAR, SELECCIONAR CASOS, GRAFICAR 
+########  2) SERIES DE TIEMPO EN R
+#########       DECLARARA UNA ST, DIVIDIR ST, GRAFICAR ST 
+############    INTERPRETAR GRAFICAS CON ESTACIONAIDAD, 
+#############   TENDENCIA Y CICLO
+#############   2.1 ) COMO DETERMINAR ESTACIONAIDAD EN UNA ST
+#############  CON LA FUNCION DE AUTOCORRELACION, CALCULO DE
+############# CORRELACION Y COVARIANZA .....
+##########################LUNES 18 DE ABRIL.. EXAMEN######################
+########################## REPASO  11 DE ABRIL #############################
 
-install.packages ("fpp")
+
+#### Funcion de autocorrelacion!!1
+###La autocorrelación mide la correlación entre dos variables 
+##separadas por k periodos 
+##propiedades de la autocorrelacion
+#P0 = 1 
+#-1<= P0<=1
+# simetria Pj= pj-1
+
+install.packages("fpp")
+install.packages("forecast")
 require (fpp)
-help (fpp)
-seasonplot(icats,s= 12, year.labels=TRUE,
-           main="valor acciones ICA",
-           ylab="valor cierre",col=1:20,year.labels.left=TRUE,pch=1)
+Acf (beer)
+xx<- Acf(beer,main="ACF of quarterly beer production")
+names (xx)
+xx$acf
 
-##### con monthplot pódemos hacer un analisis de la st dependiendo del periodo 
-## de los datos por ejemplo si tenemos trimestral se pueden analizar los 4 trimestres.... en grafica
-
-monthplot(icats,ylab="valor cierre",xlab="Month",
-          main="valor acciones ICA")
-help (monthplot)
-
-########### funciones utilizadas
-ST graficas
-plot or plot.ts
-Grafica de temporalidad 
-seasonplot
-graficas de subseries temporales 
-monthplot
-#######################CORRELACION Y COVARIANZA
-#Covarianza y correlación : medida del grado
-#relación lineal entre dos variables (y Y x).
-### auto covarianza y auto correlaccion
-###3 Autocovariancia y autocorrelación : medida
-#relación lineal entre los valores retardados de una
-#series de tiempo y.
-# se mide  la relación entre: yt and yt−1
-#yt and yt−2
-#yt and yt−3, etc.
-
-###3 para desestacionalizar y eliminar la tendencia necesitamos conocer
-#la correlacion delas variables para realizar mejores pronosticos
-#de nuestra serie de tiempo 
-
-### en muchas casos las variables estan correlacionadas...
-#entonces si nosotros logramos identificar la correlacion 
-#podemos mejorar los pronosticoa si las correlaciones son altasst 
-### para la ST observada 
-###Autocorrelación
-# a veces sucede que  los valores que toma una variable en el tiempo no
-#son independientes entre sí, sino que un valor determinado 
-#depende de los valores anteriores,
-### para obtener la correlación se necesita obytener primero la covarianza
-#### 
-############ covarianza 
-#ejercicio en r verifiquen que la formula de la covarianza
-# y la correlacion den e mismo resultado que las funciones cov(x,y) 
-#y cor (x,y)
-## la covarianza es una medida de asociación entre dos variables
-#Cor(x, y) = Cov(x, y) \ sd(x)sd(y)
-### Cov(x, y) =suma((xi − x (media))(yi − y ((media))))/(n − 1)
-#ejemplo en R
-ocu<-ts(read.csv(("C:\\Users\\SALA-C7\\Desktop\\3 indicadores.csv"), header = T),frequency=4, start=2005);
-asal <- ocu [,1]
-desoc <- ocu [,2]
-n<- length(asal)
-sum(((asal) - mean(asal))*(desoc - mean(desoc))) / (n - 1) ## calculamos la covarianza  con formula
-cov(asal, desoc) ### funcion de R para obtener la covarianza
-## la correlacion tambien es una medida de relacion entre dos variables que permite 
-#Cor(x, y) = Cov(x, y) \ sd(x)sd(y)
-
-cov(asal,desoc) / (sd(asal)*sd(desoc)) #calculamos la correlacion con formula
-
-cor(asal,desoc) # funcion de R para obtener la correlacion 
-
-EJERCICIo 
-
-### 1) ANALIZAR LOS AÑOS DE LAS 3 EMPRESAS ELEGIDAS (seasonplot) Y
-#ELEEGIR LOS 3 AÑOS QUE UBIQUEN CON ESTACIONALIDAD, CICLO O TENDENCIA....
-#INTERPRETAR ESTOS 3 AÑOS
-#### 2) CACULAR CON LA FORMULA Y LA FUNCION DE COVARIANZA Y CORRELACION EN 
-#### LA COMBINACIÓN DE LAS 3 EMPRESAS, ES DECIR, 
-#### EMPRESA 1 = X, EMPRE2 = Y Y EMPRE3 = Z, CALCULAR LAS CORRELACION DE
-## cor (x,y), cor(y,z) y cor (x,z) para hacerlas "compatibles" uutilicen
-### el window
+#Results for first 9 lags for beer data:
+r1     r2      r3    r4    r5    r6      r7    r8    r9
+−0.126 −0.650 −0.094 0.863 −0.099 −0.642 −0.098 0.834 −0.116
+### R4 superior a la de los otros retardos . 
+#Esto es debido a el patrón estacional en los datos
 
 
+#### LA GRAFICA QUE GENERA EL ACF se le denomina
+#correlograma y permite identificar 
+##### la autocorrelacion en una serie de tiempo.... 
+
+##Si hay estacionalidad , la ACF en el desfase temporal 
+#será grande y positivo.
+###################### netfix ################
+
+nfix <- read.csv ("C:\\Users\\SALA-C6\\Desktop\\netfix.csv", header =T)
+nfixts <- ts(nfix [,5], start = 2015, frequency = 12)
+plot.ts (nfixts)
+Acf (nfixts)
+xx<- Acf(nfixts,main="ACF of quarterly beer production")
+xx$acf
 
 
+################################################################################################
+
+EJEMPOLO 
+fc <- rwf(dj)
+res <- residuals(fc)
+plot(res)
+hist(res,breaks="FD")
+ww<- Acf(res,main="")
+ww$acf
+xxxx<- read.csv ("/home/sgr/Dropbox/Dropbox1/fac economia/actuaria/series de tiempo/desoc, asal y til1.csv")
+xxxx<-ts(xxxx)
+ss<- Acf (xxxx) 
+ss$acf
+
+########################pronosticos
+
+l#os residuos en el pronóstico : diferencia entre
+#valor observado y su pronóstico basado en todos
+#observaciones anteriores : et = yt - yt | t - 1 .
+#Tres posibilidades de los residuos
+#dos supuestos
+# 1)  { Et } no correlacionado . Si no lo son , entonces
+# información que queda en los residuos que se debe utilizar
+#en las previsiones de computación .
+#2) {et} con media cero si no cumple entonces los pronosticos estan sesgados
+
+##propiedades
+#1) et varianza constante
+#2) et es normalmente distribuido
 
 
+### TENEMOS LA ECUACION 
+#yˆt|t−1 = yt−1
+#et = yt − yt−1 son los residuos 
+help (rwf)
 
 
-#################3la correlaci[on nos permite conocer si existe un problema para realizar 
-### el pronostico de nuestra St ]
-### una alta correlacion nos indica que al 
+#Proceso estocástico estacionario
+#Un proceso estocástico se dice que es estacionario si su media y su varianza son 
+#constantes en el tiempo y si el valor de la covarianza 
+#entre dos periodos depende solamente de la distancia o rezago entre estos
+#dos periodos de tiempo y no del tiempo en el cual se ha calculado la covarianza.
 
-Acf (beer, "type = correlation", plot = F)
 
-#### EJERCICIOS
+donde , la covarianza (o autocovarianza) al rezago , es la covarianza entre los valores de y ,
+que están separados periodos.
+En resumen si una serie de tiempo es estacionaria, su media, su varianza y su autocovarianza (en
+                                                                                              diferentes rezagos) permanecen iguales sin importar el momento en el cual se midan; es decir, son
+invariantes respecto al tiempo. 
+
+
