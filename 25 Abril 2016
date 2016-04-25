@@ -1,0 +1,52 @@
+######### metodo de la media
+
+labo <- read.csv("C:\\Users\\SALA-C7\\Documents\\IndicadoresENOE_2016-04-25.csv")
+part <- ts(labo[,1], start = 2005, frequency = 4)
+plot(part)
+install.packages("fpp")
+library(fpp)
+install.packages("forecast")
+library(forecast)
+acf(part)
+
+#Método de la media ... meanf(part,h)
+
+partpro <- meanf(part,4)
+plot(partpro)
+
+##Método Ingenuo (Proyecta en base a el utlimo valor)
+
+partpro2 <- naive(part, 4)
+plot(partpro2)
+
+##Forma alternativa de este metodo
+
+rwf(part, 4)
+
+##Método Ingenuo Estacional (Toma el último valor similar al que se va a proyectar)
+
+partpro3 <- snaive(part,4)
+plot(partpro3)
+
+#Método de la deriva (toma un promedio en base en el aumento y reducciones de las series de tiempo)
+
+partpro4 <- rwf(part, 4, drift = T) #drift= T, ACTIVA EL METODO DE LA DERIVA
+plot(partpro4)
+
+
+
+###EJEMPLOS###
+
+part1 <- window(part, start=2005, end= 2010)
+partaj1 <- meanf(part1,4)
+partaj2 <- naive(part1,4)
+partaj3 <- snaive(part1,4)
+
+plot(part, plot.conf= FALSE, 
+     main= "Proyección Tasa de Desempleo Trimestral", xlim=c(2005,2011))
+lines(partaj2$mean, col=2)
+lines(partaj3$mean, col=3)
+lines(partaj1$mean, col=4)
+
+legend("topleft", lty = 1, col = c(1,2,3,4), 
+       legend = c("Metodo Media", "Metodo Ingenuo", "Metodo Ingenuo estacional"))
