@@ -1,0 +1,53 @@
+###############ANALISIS DE RESIDUOS################### 
+Codigo en r 
+require (fpp)
+plot(deso, main="desocupación 2005 al 2015 ", 
+     ylab="desocupados", xlab="trimestre")
+res <- residuals(snaive(deso))
+plot(res, main="residuals de ingenuo estacional", 
+     ylab="residuales", xlab="años")
+Acf(res, main="ACF de residuales")
+hist(res, nclass="FD", main="histograma residuales")
+
+
+###############33medidas de evaluacion de modelos###############33
+labo <- read.csv ("/home/sgr/Dropbox/Dropbox1/fac economia/actuaria/series de tiempo/desoc, asal y til1.csv")
+deso <- ts(labo [,1], start  = 2005, frequency = 4)
+plot (deso)
+Acf (deso)
+#meanf (deso, h)
+desopro <- meanf (deso, 3)
+plot (desopro)
+# deso es la ST 
+### el número de datos a proyectar en este caso elegí h = 3
+
+########## ingenuo
+desonai <- naive(deso, 3)
+plot (desonai)
+#rwf(deso, 3) # Alternativo
+
+### ingenuo estacional
+desosnai <- snaive(deso, 3)
+desosnai
+plot(desosnai)
+help (snaive)
+
+########## metodo de la deriva
+
+desoder <- rwf(deso, 3, drift = T)
+desoder
+plot (desoder)
+rwf(st, h, drift=TRUE)
+
+
+############# EJEMPLOS######################33
+deso1 <- window(deso,start=2005,end=2010)
+desoaj1 <- meanf(deso1, h=4)
+desoaj2 <- naive(deso1, h=4)
+desoaj3 <- snaive(deso1, h=4)
+
+
+accuracy(desoaj1)
+accuracy(desoaj2, deso)
+accuracy(desoaj3, deso)
+help (accuracy)
