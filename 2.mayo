@@ -1,0 +1,22 @@
+labo <- read.csv ("/home/sgr/Dropbox/Dropbox1/fac economia/actuaria/series de tiempo/desoc, asal y til1.csv")
+deso <- ts(labo [,1], start  = 2005, frequency = 4)
+require (fpp)
+plot(deso, main="desocupación 2005 al 2015 ", 
+     ylab="desocupados", xlab="trimestre")
+res1 <- residuals(naive(deso))
+res2 <- residuals(snaive(deso))
+res3 <- residuals(rwf(deso, 3, drift = T))
+plot(res1, main="residuals de ingenuo ", 
+     ylab="residuales", xlab="años")
+Acf(res1, main="ACF de residuales")
+hist(res1, nclass="FD", main="histograma residuales")
+
+plot(res2, main="residuals de ingenuo estacional", 
+     ylab="residuales", xlab="años")
+Acf(res2, main="ACF de residuales")
+hist(res2, nclass="FD", main="histograma residuales")
+
+plot(res3, main="residuals de deriva", 
+     ylab="residuales", xlab="años")
+Acf(res3, main="ACF de residuales")
+hist(res3, nclass="FD", main="histograma residuales")
