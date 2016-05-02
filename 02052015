@@ -1,0 +1,67 @@
+cremx <- read.csv("C:\\Users\\SALA-C7\\Desktop\\Crecimieto México 1896-2015.csv", header = T)
+cremxts <- ts(cremx[,3], start = 1896, end = 2013)
+plot(cremxts)
+cremx1950 <- window(cremxts, start= 1950, end= 2013)
+plot(cremx1950)
+
+require (fpp)
+
+plot(cremx1950, main="Crecimiento Económico", 
+     ylab="Tasa", xlab="Año")
+
+res1 <- residuals(naive(cremx1950)) ##Ingenuo
+res2 <- residuals(snaive(cremx1950)) 
+res3 <- residuals(rwf(cremx1950, 3, drift = T))
+res4 <- residuals(meanf(cremx1950))
+
+res1
+res2
+res3
+res4
+
+plot(res1, main="residuals de ingenuo ", ##para saber si la varianza es constante
+     ylab="residuales", xlab="años")
+Acf(res1, main="ACF de residuales") ##para saber si hay o no correlación entre los residuos
+hist(res1, nclass="FD", main="histograma residuales") ##para saaber si se distribuyen normal
+
+plot(res2, main="residuals de ingenuo estacional", 
+     ylab="residuales", xlab="años")
+Acf(res2, main="ACF de residuales")
+hist(res2, nclass="FD", main="histograma residuales")
+
+plot(res3, main="residuals de deriva", 
+     ylab="residuales", xlab="años")
+Acf(res3, main="ACF de residuales")
+hist(res3, nclass="FD", main="histograma residuales")
+
+plot(res4, main="residuals de media", 
+     ylab="residuales", xlab="años")
+Acf(res4, main="ACF de residuales")
+hist(res4, nclass="FD", main="histograma residuales")
+
+###Otras pruebas de autocorrelación de forma grupal 
+## Si el p-value es mayor a 0.05 se acepta la independencia
+
+##Prueba Box Pierce
+Box.test(res1, lag = 10, fitdf = 0)
+
+##Prueba Ljing-Box
+Box.test(res1, lag = 10, fitdf = 0, type = "Lj")
+
+##Prueba Box Pierce
+Box.test(res2, lag = 10, fitdf = 0)
+
+##Prueba Ljing-Box
+Box.test(res2, lag = 10, fitdf = 0, type = "Lj")
+
+##Prueba Box Pierce
+Box.test(res3, lag = 10, fitdf = 0)
+
+##Prueba Ljing-Box
+Box.test(res3, lag = 10, fitdf = 0, type = "Lj")
+
+##Prueba Box Pierce
+Box.test(res4, lag = 10, fitdf = 0)
+
+##Prueba Ljing-Box
+Box.test(res4, lag = 10, fitdf = 0, type = "Lj")
