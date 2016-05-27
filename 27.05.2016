@@ -1,0 +1,46 @@
+## 27/05/2016
+## Ejercicio: 
+## 1.- Elijan una serie de tiempo
+## 2.- Apliquen la función autorima(3,1,0)
+## 3.- Apliquen función Arima(p,q,d) con dos modelos tal que genere la función auto.arima
+## 4.- Generar una gráfica con los valores reales y los valores ajustados de los 3 modelos
+## 5.- Generar graficación de los valores reales y los valores ajustados y pronosticados en en los 3 modelos 
+## *Número de pronosticos h= 4
+
+
+###PARTE 1
+
+serie <- read.csv ("C:\\Users\\SALA-C7\\Desktop\\Crecimieto México 1896-2015.csv")
+serie_t <- ts(serie [,3], start  = 2005, frequency = 12)
+
+###Parte 2
+
+require (fpp)
+mod_1 <- auto.arima(serie_t, seasonal=FALSE)
+mod_1
+mod_2 <- arima(serie_t, order = c(3,1,0))
+mod_2
+mod_3 <- arima(serie_t, order = c(4,0,0))
+mod_3
+
+proy1<- forecast (mod_1, h=4)
+proy1
+proy2<- forecast (mod_2, h=4)
+proy2
+proy3<- forecast (mod_3, h=4)
+proy3
+
+fitted (proy1)
+fitted (proy2)
+fitted (proy3)
+
+plot(proy1, plot.conf=FALSE, ylab="",
+     xlab="año", main="", fcol="white", type="o")
+lines(fitted(proy2), col="red", type="o")
+lines(fitted(proy3), col="green", type="o")
+lines(proy1$mean, col="blue", type="o")
+lines(proy2$mean, col="red", type="o")
+lines(proy3$mean, col="green", type="o")
+legend("bottomleft",lty=1, col=c(1,"blue","red","green"), 
+       c("base normal", expression(mod_1), expression(mod_2),
+         expression(mode_3)),pch=1)
