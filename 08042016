@@ -1,0 +1,52 @@
+##EXAMEN
+
+#1. GENERAR UN SCRIPT
+#2. DADO UN SCRIPT REALIZAR UNA EXPLICACIÓN O COMENTARIOS 
+##SOBRE LO DADO
+
+
+##ESTRUCTURA DEL EXAMEN##
+
+#1. EXPORTAR BASES, ETIQUETAR, GENERAR UNA BASE DE DATOS, RECODIFICAR,
+##SELECCIONAR CASOS, GRIFICAR (HISTOGRAMAS)
+#2. SERIES DE TIEMPO EN R, DECLARAR SERIES DE TIEMPO, DIVIDIR SERIES
+##GRAFICAR ST, INTERPRETAR GRAFICAS CON ESTACIONALIDAD, TENDENCIA
+##Y CICLOS, COMO DETERMINAR ESTACIONALIDAD EN UNA ST, CON LA
+##FUNCIÓN DE AUTOCORRELACIÓN, CALCULO DE CORRELACIÓN Y COVARIANZA
+############### LUNES 18/04/2016 ##########################
+
+
+#### Funcion de autocorrelacion!!1
+###La autocorrelación mide la correlación entre dos variables separadas por k periodos. 
+#### propiedades de la autocorrelacion
+#rango:
+#P0 = 1 en el primer isntate de la serie de tiempo
+#-1<= P0<=1 
+# simetria Pj= pj-1, o alta correlación
+
+install.packages("fpp")
+require (fpp)
+library(fpp)
+install.packages("forecast")
+acf(beer) ##Función para conocer la autocorrelación 
+xx<- Acf(beer,main="ACF of quarterly beer production")
+
+
+Acf(beer,main="ACF of quarterly beer production")
+
+names(xx)
+xx$acf
+##La grafica que genera ACF es llamada correlograma y permite encontrar la autocorrelación en una serie de tiempo
+
+
+##Si hay estacionalidad , la ACF en el desfase temporal será grande y positivo.
+
+
+###TOMANDO UNA BASE DE DATOS DE NETFLIX
+
+netflix <- read.csv("C:\\Users\\SALA-C7\\Desktop\\table.csv", header = T)
+icats <- ts(netflix[,5], start = 2015, frequency = 12)
+plot.ts(icats)
+acf(icats)
+xx<- Acf(icats,main="ACF of Netflix production")
+xx$acf

@@ -1,0 +1,103 @@
+install.packages("forecast")
+install.packages("fpp")
+require (forecast)
+require (fpp)
+
+##Para la serie de tiempo creciente usamos la base de datos incluida en r llamada Air Passengers
+
+AirPassengers
+serie_creciente <- ts(AirPassengers, start = 1949, frequency = 12)
+plot(serie_creciente, main= "Serie de tiempo Creciente", xlab= "Año", col= 34)  
+
+###Proponiendo los modelos 
+##HOLT LINEAL
+fit1 <- holt(serie_creciente, alpha=0.3, beta= 1.0, initial = "simple", h=4)
+fit1
+
+##HOLT EXPONENCIAL
+fit2 <- holt(serie_creciente, alpha=0.3, beta= 1.0, initial="simple", exponential = T,  h=4)
+fit2
+
+##TENDENCIA ADITIVA AMORTIGUADA 
+fit3 <- holt(serie_creciente, damped = T, alpha= 0.3, beta= 0.1, gamma= 0.5)
+fit3
+
+##TENDENCIA MULTIPLICATIVA AMORTIGUADA
+fit4 <- holt(serie_creciente, exponential = T, damped = T, alpha = 0.3, beta = 0.1, gamma= 0.5)
+fit4
+
+##REALIZANDO LA GRAFICA DE LA BASE AirPassengers
+
+x11()
+plot(serie_creciente, plot.conf=FALSE, ylab="Pasajeros", xlab="Año", main="", fcol="white", type="o")
+###Graficamos los ajustes
+lines(fitted(fit1), col="blue", type="o")
+lines(fitted(fit2), col="red", type="o")
+lines(fitted(fit3), col="green", type="o")
+lines(fitted(fit4), col="yellow", type="o")
+legend("topleft", lty = 1, col=c(1,"blue","red","green", "yellow"), c("AirPassengers", expression(alpha==.3),
+                                                                    expression (alpha==.3),expression (alpha==.3), expression(alpha==.3)), pch=1)
+
+##Generando la Tabla con Ajustes
+
+aju1 <- accuracy(fit1)
+aju1
+aju2 <- accuracy(fit2)
+aju2
+aju3 <- accuracy(fit3)
+aju3
+aju4 <- accuracy(fit4)
+aju4
+tabla_1 <- data.frame(aju1, aju2, aju3, aju4)
+
+
+
+##Para la Serie de Tiempo Decreciente esamos los precios históricos de Dolar
+
+base1 <- read.csv("C:\\Users\\alex\\Desktop\\table(1).csv")
+serie_decreciente <- ts(base1[,1], start = 2007, frequency = 12)
+serie_decreciente_1 <- window(serie_decreciente, start= 2007, end=2014)
+plot(serie_decreciente_1, main= "Precios Históricos Dolar", xlab= "Año", ylab= "Precio", col= "purple")
+
+###Proponiendo los modelos 
+##HOLT LINEAL
+fit1_1 <- holt(serie_decreciente_1, alpha=0.3, beta= 1.0, initial = "simple", h=4)
+fit1_1
+
+##HOLT EXPONENCIAL
+fit2_2 <- holt(serie_decreciente_1, alpha=0.3, beta= 1.0, initial="simple", exponential = T,  h=4)
+fit2_2
+
+##TENDENCIA ADITIVA AMORTIGUADA 
+fit3_3 <- holt(serie_decreciente_1, damped = T, alpha= 0.3, beta= 0.1, gamma= 0.5)
+fit3_3
+
+##TENDENCIA MULTIPLICATIVA AMORTIGUADA
+fit4_4 <- holt(serie_decreciente_1, exponential = T, damped = T, alpha = 0.3, beta = 0.1, gamma= 0.5)
+fit4_4
+
+##REALIZANDO LA GRAFICA DE LA BASE PRECIO DOLAR
+
+x11()
+plot(serie_decreciente_1, plot.conf=FALSE, ylab="Precio", xlab="Año", main="", fcol="white", type="o")
+###Graficamos los ajustes
+lines(fitted(fit1_1), col="blue", type="o")
+lines(fitted(fit2_2), col="red", type="o")
+lines(fitted(fit3_3), col="green", type="o")
+lines(fitted(fit4_4), col="yellow", type="o")
+legend("topright", lty = 1, col=c(1,"blue","red","green", "yellow"), c("Dolar", expression(alpha==.3),
+                                                                      expression (alpha==.3),expression (alpha==.3), expression(alpha==.3)), pch=1)
+
+##Generando la Tabla con Ajustes
+
+aju1_1 <- accuracy(fit1_1)
+aju1_1
+aju2_2 <- accuracy(fit2_2)
+aju2_2
+aju3_3 <- accuracy(fit3_3)
+aju3_3
+aju4_4 <- accuracy(fit4_4)
+aju4_4
+
+tabla_2 <- data.frame(aju1_1, aju2_2, aju3_3, aju4_4)
+View(tabla_2)

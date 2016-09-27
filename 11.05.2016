@@ -1,0 +1,126 @@
+###MODELO DE SUAVIZAMIENTO EXPONENCIAL SIMPLE
+
+##Pronostica series de tiempo que no tengtan tendencia nio estacionalidad, otorga mayor peso a las observaciones
+##presentes que a las pasadas, alpha debe estar entre 0 y 1
+
+require (forecast)
+require (fpp)
+
+base <- read.csv("C:\\Users\\SALA-C7\\Documents\\IndicadoresENOE_2016-04-25.csv", header=TRUE)
+deso <- ts(base[,2], start = 2005, frequency = 4)
+deso
+
+###Proponiendo los modelos 
+
+fit1 <- ses(deso, alpha=0.2, initial="simple", h=4)
+fit2 <- ses(deso, alpha=0.6, initial="simple", h=4)
+fit3 <- ses(deso, alpha= 1, initial="simple", h=4)
+
+###h significa el numero de pronosticos que queremis hacer 
+
+
+#Grafuicando
+
+plot(fit1, plot.conf=FALSE, ylab="Desocupa",
+     xlab="Year", main="", fcol="white", type="o")
+
+##Graficamos los ajustes (valores que el modelo calcularia con alpha distinta)
+lines(fitted(fit1), col="blue", type="o")
+lines(fitted(fit2), col="red", type="o")
+lines(fitted(fit3), col="green", type="o")
+
+##Graficando la media del pronístico de cada uno de los modelos 
+lines(fit1$mean, col="blue", type="o")
+lines(fit2$mean, col="red", type="o")
+lines(fit3$mean, col="green", type="o")
+legend("topleft",lty=1, col=c(1,"blue","red","green"), 
+       c("data", expression(alpha == 0.2), expression(alpha == 0.6),
+         expression(alpha == 1)),pch=1)
+
+Una vez que obtengan la grafica de los tres modelos.... generar en excel una hoja donde nos muestre los datos ajustados (fitted)
+y se resten a los valores reales... de ahi ver segun los residuales que modelo es mejor , tambien obtener el m
+MAE, RMSE, MAPE Y SSE
+
+###Para sacar los residuales
+
+names(fit1)
+aju1 <- fit1$fitted
+aju1
+aju2 <- fit2$fitted
+aju2
+aju3 <- fit3$fitted
+aju3
+
+base_deso <- data.frame(deso, aju1, aju2, aju3, deso-aju1, deso-aju2, deso-aju3)
+View(base_deso)
+
+RES1 <- deso-aju1-fit1$residuals
+RES2 <- deso-aju2-fit2$residuals
+RES3 <- deso-aju3-fit3$residuals
+
+RES1
+RES2
+RES3
+
+##EJERCICIO: Elegir dos series de tiempo sin tendencia ni estacionalidad
+##Serie 1 alpha=0.1, 0.6 y 0.9
+##Serie 2 alpha= 0.0001, 0.5, 0.987
+#Graficar las series de tiempo, Calcular el MAE, RMSE, MAPE Y SSE, Decidir en cada una de las series cual ocuparian
+#Argumente por que es mejor usar un alpha cercano a 0 o a 1
+#
+
+subocop <- ts(base[,6], start = 2005, frequency = 4)
+concri <- ts(base[,7], start = 2005, frequency = 4)
+
+###Proponiendo los modelos 
+#TASA DE SUBOCUPACIÓN
+mod_sub1 <- ses(subocop, alpha=0.1, initial="simple", h=4)
+mod_sub2 <- ses(subocop, alpha=0.6, initial="simple", h=4)
+mod_sub3 <- ses(subocop, alpha= 0.9, initial="simple", h=4)
+
+#TASA DE CONDICIONES CRITICAS DE OCUPACIÓN
+mod_con1 <- ses(concri, alpha=0.0001, initial="simple", h=4)
+mod_con2 <- ses(concri, alpha=0.5, initial="simple", h=4)
+mod_con3 <- ses(concri, alpha= 0.987, initial="simple", h=4)
+
+##GRAFICANDO TASA DE SUBOCUPACIÓN
+plot(mod_sub1, plot.conf=FALSE, ylab="Subocupación",
+     xlab="Año", main="Tasa de Subocupación", fcol="white", type="o")
+
+lines(fitted(mod_sub1), col="blue", type="o")
+lines(fitted(mod_sub2), col="red", type="o")
+lines(fitted(mod_sub3), col="green", type="o")
+
+lines(mod_sub1$mean, col="blue", type="o")
+lines(mod_sub2$mean, col="red", type="o")
+lines(mod_sub3$mean, col="green", type="o")
+legend("topleft",lty=1, col=c(1,"blue","red","green"), 
+       c("data", expression(alpha == 0.1), expression(alpha == 0.6),
+         expression(alpha == 0.9)),pch=1)
+
+##GRAFICANDO TASA DE CONDICIONES CRITICAS DE OCUPACIÓN 
+
+plot(mod_con1, plot.conf=FALSE, ylab="Condiciones Criticas",
+     xlab="Año", main="Tasa de Condiciones Criticas de Ocupación", fcol="white", type="o")
+
+lines(fitted(mod_con1), col="blue", type="o")
+lines(fitted(mod_con2), col="red", type="o")
+lines(fitted(mod_con3), col="green", type="o")
+
+lines(mod_con1$mean, col="blue", type="o")
+lines(mod_con2$mean, col="red", type="o")
+lines(mod_con3$mean, col="green", type="o")
+legend("topleft",lty=1, col=c(1,"blue","red","green"), 
+       c("data", expression(alpha == 0.0001), expression(alpha == 0.5),
+         expression(alpha == 0.987)),pch=1)
+
+
+##Obteniendo indicadores
+
+accuracy(mod_sub1)
+accuracy(mod_sub2)
+accuracy(mod_sub3)
+
+accuracy(mod_con1)
+accuracy(mod_con2)
+accuracy(mod_con3)

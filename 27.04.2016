@@ -1,0 +1,41 @@
+require(forecast)
+require(fpp)
+pib <- read.csv("C:\\Users\\SALA-C7\\Documents\\PIB TRIMESTRAL A PRECIOS DE 2008.csv", header = T)
+View(pib)
+pibts <- ts(pib[,2], start = 1993, frequency = 4)
+plot(pibts)
+Acf(pibts)
+View(pibts)
+
+##Método 1 de Pronóstico
+
+m1 <- meanf(pibts,4)
+plot(m1)
+
+##Método 2 de Pronóstico
+
+m2 <- naive(pibts, 4)
+plot(m2)
+
+##Método 3 de Pronóstico
+
+m3 <- snaive(pibts,4)
+plot(m3)
+
+##Método 4 de Pronóstico
+
+m4 <- rwf(pibts, 4, drift = T) 
+plot(m4)
+
+#Para obtener precisión
+
+evalmed <- accuracy(m1)
+evaling <- accuracy(m2)
+evalsnai <- accuracy(m3)
+evalder <- accuracy(m4)
+
+##Los metodos importantes son: MAE, MAPE, RMSE, MASE
+
+#Tenemos que comparar valores, y los que esten cercamos a 0 son el mejor pronóstico
+
+Elaboró: Alexis Solís Hernández

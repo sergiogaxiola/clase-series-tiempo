@@ -1,0 +1,63 @@
+#Para limpiar el entorno de trabajo
+
+rm(list= ls())
+
+#Pasra cargar bases de datos
+
+library(foreign)
+sociodemo <- data.frame(read.dbf("C:\\Users\\SALA-C7\\Downloads\\SDEMT215.dbf"))
+View(sociodemo)
+
+#RECODIFICACIÓN DE VARIABLES NUMERICAS, RANGOS
+#METODO 1
+table(sociodemo$CLASE2)
+sociodemo$CLASE2.1[as.numeric(sociodemo$CLASE2) >= 0 & as.numeric(sociodemo$CLASE2) <=2] <- 1
+sociodemo$CLASE2.1[as.numeric(sociodemo$CLASE2) >= 3 & as.numeric(sociodemo$CLASE2) <=4] <- 2
+
+#MÉTODO 2
+
+attach(sociodemo)
+sociodemo$CLASE2.2 <- ifelse(as.numeric(CLASE2) >= 1 & as.numeric(CLASE2) <= 2, 1, 
+                              ifelse(as.numeric(CLASE2) >= 3 & as.numeric(CLASE2) <= 3, 2, 3))
+detach(sociodemo)
+
+#Comparacion de los metodos
+
+require(questionr)
+wtd.table(sociodemo$CLASE2.1)
+wtd.table(sociodemo$CLASE2.2)
+
+
+
+########################### EJERCICIO RECODIFICAR VARIABLE EDAD#########################
+### 0 A 14= 1 NIÑ@S, 15 A 29=  2 JOVENES, 30 A 59= 3 ADULTOS , 60 A 97 = 4 ADULTOS MAYORES , 98Y 99= 5 NO ESPECIFICADO
+#### POR LOS DOS METODOS.... 
+### DESPUES ETIQUETAN LOS GRUPOS (SI DA TIEMPO))
+#### COMPARAR METODOS#############
+
+table(sociodemo$EDA)
+
+#METODO 1
+sociodemo$EDA <- as.numeric(as.character(sociodemo$EDA))
+sociodemo$EDA.1[as.numeric(sociodemo$EDA) >= 0 & as.numeric(sociodemo$EDA) <=14 ] <- 1
+sociodemo$EDA.1[as.numeric(sociodemo$EDA) >= 15 & as.numeric(sociodemo$EDA) <=29 ] <- 2
+sociodemo$EDA.1[as.numeric(sociodemo$EDA) >= 30 & as.numeric(sociodemo$EDA) <=59 ] <- 3
+sociodemo$EDA.1[as.numeric(sociodemo$EDA) >= 60 & as.numeric(sociodemo$EDA) <=97 ] <- 4
+sociodemo$EDA.1[as.numeric(sociodemo$EDA) >= 98 & as.numeric(sociodemo$EDA) <= 99 ] <- 5
+
+sociodemo$EDA.1 <- ordered(sociodemo$EDA.1, levels= 1:5, labels= c("NIÑ@S", "JOVENES", "ADULTOS", "ADULTOS MAYORES",
+                                                                   "NO ESPECIFICADO"))
+wtd.table(sociodemo$EDA.1)
+
+
+
+#MÉTODO 2
+sociodemo$EDA <- as.numeric(as.character(sociodemo$EDA))
+sociodemo$EDA.2 <- ifelse(as.numeric(sociodemo$EDA) >= 0 & as.numeric(sociodemo$EDA)<= 14,1,
+                            ifelse(as.numeric(sociodemo$EDA) >= 15 & as.numeric(sociodemo$EDA)<=29,2,
+                                   ifelse(as.numeric(sociodemo$EDA) >= 30 & as.numeric(sociodemo$EDA) <= 59, 3,
+                                          ifelse(as.numeric(sociodemo$EDA) >= 60 & as.numeric(sociodemo$EDA) <= 97, 4,5))))
+
+sociodemo$EDA.2 <- ordered(sociodemo$EDA.2, levels= 1:5, labels= c("NIÑ@S", "JOVENES", "ADULTOS", "ADULTOS MAYORES",
+                                                                   "NO ESPECIFICADO"))
+wtd.table(sociodemo$EDA.2)

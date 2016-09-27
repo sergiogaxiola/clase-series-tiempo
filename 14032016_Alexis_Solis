@@ -1,0 +1,88 @@
+## CLASE: 14/03/2016
+
+tasa <- ts(read.csv(("C:\\Users\\SALA-C7\\Documents\\Indicadores.csv"), header = T), frequency = 4, start = 2005)
+tasa
+View(tasa)
+class(tasa) #PARA CONOCER QUE CLASE DE ELEMENTO ES 
+
+#CONVIERTIENDO EN SERIES DE TIEMPO UNA SERIE DE TIEMPO (POR COLUMNA)
+
+desoparcial <- ts(tasa[,1], start = 2005, freq= 4)
+asala <- ts(tasa[,2], start = 2005, freq= 4)
+til1 <- ts(tasa[,3], start = 2005, freq= 4)
+
+#REALIZANDO LA SERIE DE TIEMPO MULTIPLE
+
+serie_mult <- ts.intersect(desoparcial, asala, til1) 
+serie_mult
+View(serie_mult)
+
+#GRAFICANDO
+
+plot(serie_mult, xlab="Años", ylab="Número de Personas", 
+     main= "Serie de Tiempo Múltiple", col= "Green")
+
+##PARA SEPARAR UNA SERIE DE TIEMPO DEPENDIENDO DEL ANÁLISIS 
+
+serie_mult05.09 <- window(serie_mult, start= c(2005,1), end= c(2009,4))
+serie_mult10.15 <- window(serie_mult, start= c(2010,1), end= c(2015,4))
+
+#GRAFICANDO
+
+plot(serie_mult05.09, xlab="Años", ylab="Número de Personas", 
+     main= "Serie de Tiempo Múltiple 05.09", col= "Red")
+plot(serie_mult10.15, xlab="Años", ylab="Número de Personas", 
+     main= "Serie de Tiempo Múltiple", col= "Violet")
+
+#PARA SABER DONDE EMPIEZA Y DIONDE TERMINA LA SERIE DE TIEMPO
+
+start(serie_mult); end(serie_mult)
+
+
+### EJERCICIO: Buscar una serie de tiempo de un tema de interés
+### 1) Importarla
+### 2) Declararla como Serie de Tiempo
+### 3) Graficar las variables separadas
+### 4) Graficarlas juntas como Series de Tiempo
+### 5) Crear una serie de tiempo Multiple
+
+info <- ts(read.csv(("C:\\Users\\SALA-C7\\Documents\\Indicadores de Victimización.csv"), header = T), frequency = 4, start = 2005)
+info
+class(info)
+
+##SEPARANDO LA SERIE DE TIEMPO
+
+vic_rel <- ts(info[,1], start = 2005, freq= 4)
+no_vic_rel <- ts(tasa[,2], start = 2005, freq= 4)
+
+## GRAFICANDO INDIVIDUALMENTE
+
+plot(vic_rel, xlab="Años", ylab="Número de Personas", 
+     main= "Serie de Tiempo Victimas Relativas", col= "Green")
+plot(no_vic_rel, xlab="Años", ylab="Número de Personas", 
+     main= "Serie de Tiempo No Victimas Relativas", col= "Red")
+
+
+## CREANDO SERIE DE TIEMPO MULTIPLE
+
+multiple <- ts.intersect(vic_rel, no_vic_rel)
+multiple
+
+plot(multiple, xlab="Años", ylab="Número de Personas", 
+     main= "Serie de Tiempo Múltiple", col= "Green")
+
+##PARA SEPARAR UNA SERIE DE TIEMPO DEPENDIENDO DEL ANÁLISIS 
+
+mult1 <- window(multiple, start= c(2005,1), end= c(2009,4))
+mult2 <- window(multiple, start= c(2010,1), end= c(2010,4))
+
+#GRAFICANDO
+
+plot(mult1, xlab="Años", ylab="Número de Personas", 
+     main= "Serie de Tiempo Múltiple", col= "Red")
+plot(mult2, xlab="Años", ylab="Número de Personas", 
+     main= "Serie de Tiempo Múltiple", col= "Violet")
+
+
+
+##REALIZÓ: ALEXIS SOLIS HERNÁNDEZ
